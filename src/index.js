@@ -109,4 +109,4 @@ async function downloadAndExtract (url, dest) {
 
 let args = process.argv.slice(2)
 if (!args.length) console.log('Usage: temrec [id...]')
-main(args)
+else main(args)
