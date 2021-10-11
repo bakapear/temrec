@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "demrec": "^1.1.0",
+    "despair": "^2.1.2",
+    "inly": "^4.0.8"
+  }
+}
