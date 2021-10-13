@@ -25,6 +25,8 @@ async function main (ids) {
   util.progress('[Game] Launching...', 1)
   await dr.launch()
   util.progress('[Game] Done!', 2)
+  
+  await new Promise(resolve => setTimeout(resolve, 3000))
 
   dr.on('log', data => {
     if (data.progress) {
