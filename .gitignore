@@ -1,4 +1,4 @@
 SVR
-/src/node_modules
-/src/tmp
+node_modules
+tmp
 /output

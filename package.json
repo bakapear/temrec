@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "commander": "^9.2.0",
+    "demrec": "^1.1.0",
+    "despair": "^2.1.2",
+    "inly": "^4.0.8"
+  },
+  "name": "temrec",
+  "description": "Render Tempus Records through the command line using [SourceVideoRender](https://github.com/crashfort/SourceDemoRender)!",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "bin": {
+    "temrec": "bin/temrec.js"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bakapear/temrec.git"
+  },
+  "author": "bakapear",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bakapear/temrec/issues"
+  },
+  "homepage": "https://github.com/bakapear/temrec#readme"
+}

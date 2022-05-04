@@ -2,6 +2,10 @@ let fs = require('fs')
 let ph = require('path')
 let iy = require('inly')
 let dp = require('despair')
+
+let cwd = process.cwd()
+process.chdir(ph.resolve(__dirname, '..'))
+
 let util = require('./util')
 let DemRec = require('demrec')
 let tempus = require('./tempus')
@@ -10,13 +14,13 @@ let TMP = ph.resolve(__dirname, 'tmp')
 
 let dr = new DemRec('config.ini')
 
-let CFG = {
-  padding: 200,
-  out: ph.resolve('output')
-}
+async function main (ids, CFG) {
+  CFG.padding = Number(CFG.padding)
+  if(isNaN(CFG.padding)) CFG.padding = 0
 
-async function main (ids) {
+  CFG.out = ph.resolve(cwd, CFG.output)
   if (!fs.existsSync(CFG.out)) fs.mkdirSync(CFG.out)
+  
   fs.rmSync(TMP, { recursive: true, force: true })
   if (!fs.existsSync(TMP)) fs.mkdirSync(TMP)
 
@@ -109,6 +113,4 @@ async function downloadAndExtract (url, dest) {
   })
 }
 
-let args = process.argv.slice(2)
-if (!args.length) console.log('Usage: temrec [id...]')
-else main(args)
+module.exports = main
