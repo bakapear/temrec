@@ -12,7 +12,7 @@ let tempus = require('./tempus')
 
 let TMP = ph.resolve(__dirname, 'tmp')
 
-let dr = new DemRec('config.ini')
+let dr = null
 
 async function main (ids, CFG) {
   CFG.padding = Number(CFG.padding)
@@ -113,4 +113,7 @@ async function downloadAndExtract (url, dest) {
   })
 }
 
-module.exports = main
+module.exports = config => {
+  dr = new DemRec(config)
+  return main
+}
