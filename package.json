@@ -6,7 +6,7 @@
     "inly": "^4.0.8"
   },
   "name": "temrec",
-  "description": "Render Tempus Records through the command line using [SourceVideoRender](https://github.com/crashfort/SourceDemoRender)!",
+  "description": "Render Tempus Records through the command line using SourceVideoRender!",
   "version": "1.0.0",
   "main": "src/index.js",
   "bin": {
