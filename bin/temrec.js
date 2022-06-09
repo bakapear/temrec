@@ -1,5 +1,5 @@
 #! /usr/bin/env node
-let ph = require("path")
+let ph = require('path')
 let { program } = require('commander')
 
 program

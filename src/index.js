@@ -16,11 +16,11 @@ let dr = null
 
 async function main (ids, CFG) {
   CFG.padding = Number(CFG.padding)
-  if(isNaN(CFG.padding)) CFG.padding = 0
+  if (isNaN(CFG.padding)) CFG.padding = 0
 
   CFG.out = ph.resolve(cwd, CFG.output)
   if (!fs.existsSync(CFG.out)) fs.mkdirSync(CFG.out)
-  
+
   fs.rmSync(TMP, { recursive: true, force: true })
   if (!fs.existsSync(TMP)) fs.mkdirSync(TMP)
 
