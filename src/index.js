@@ -52,12 +52,18 @@ function TemRec (config) {
   this.dr = new DemRec(config)
 
   this.dr.on('log', data => {
+    if (data.type === 'Done') return
+    let name = data.type === 'Merging' ? ('FFMPEG ' + (data.index || '')).trim() : 'Video'
     if (data.progress) {
-      if (data.progress === 100) {
-        util.progress('[Video] Done!', 2)
-        util.progress('[FFMPEG] Merging videos...', 1)
-      } else util.progress(`[Video] Rendering... ${data.progress}%`, 1)
-    } else util.progress(`[Video] ${data.type}...`, 1)
+      if (data.progress === 100) util.progress(`[${name}] Done!`, 2)
+      else {
+        if (data.type === 'Merging') util.progress(`[${name}] Processing... ${data.progress}%`, 1)
+        else util.progress(`[Video] Rendering... ${data.progress}%`, 1)
+      }
+    } else {
+      if (data.type === 'Merging') util.progress(`[${name}] Processing...`, 1)
+      else util.progress(`[Video] ${data.type}...`, 1)
+    }
   })
 }
 
@@ -97,12 +103,11 @@ TemRec.prototype.record = async function (ids, CFG = { padding: 300, output: 'ou
     util.progress('[Demo] Done!', 2)
 
     util.progress('[Video] Launching Demo...', 1)
-    await this.dr.record({
-      demo,
-      tick: { ...rec.ticks, padding: CFG.padding },
-      cmd: `spec_mode 4; spec_player "${rec.player}"`
-    }, ph.join(CFG.out, `${rec.id}.mp4`))
-    util.progress('[FFMPEG] Done!', 2)
+    await this.dr.record(demo, {
+      ticks: [rec.ticks.start - CFG.padding, rec.ticks.end + CFG.padding],
+      cmd: `spec_mode 4; spec_player "${rec.player}"`,
+      out: `${rec.id}.mp4`
+    }, CFG.out)
 
     console.log(`[${util.time(time)}] >> ${ph.basename(CFG.out)}/${rec.id}.mp4`)
   }
