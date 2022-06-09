@@ -10,5 +10,13 @@ program
   .parse()
 
 let dir = ph.resolve(__dirname, '..')
-let temrec = require(ph.resolve(dir, 'src'))(ph.resolve(dir, 'config.ini'))
-temrec(program.args, program.opts())
+let TemRec = require(ph.resolve(dir, 'src'))
+let tr = new TemRec(ph.resolve(dir, 'config.ini'))
+
+async function main (ids, cfg) {
+  await tr.launch()
+  await tr.record(ids, cfg)
+  await tr.exit()
+}
+
+main(program.args, program.opts())
