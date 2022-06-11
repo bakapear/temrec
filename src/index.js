@@ -75,17 +75,24 @@ TemRec.prototype.launch = async function () {
   await new Promise(resolve => setTimeout(resolve, 3000))
 }
 
-TemRec.prototype.record = async function (ids, CFG = { padding: 300, output: 'output' }) {
+TemRec.prototype.record = async function (ids, CFG = { padding: 200, output: 'output' }) {
+  let mult = true
+  if (!Array.isArray(ids)) {
+    mult = false
+    ids = [ids]
+  }
   ids = await getRecords(ids)
 
   CFG.padding = Number(CFG.padding)
   if (isNaN(CFG.padding)) CFG.padding = 0
 
-  CFG.out = ph.resolve(CFG.output)
+  CFG.out = ph.resolve(CFG.output || '')
   if (!fs.existsSync(CFG.out)) fs.mkdirSync(CFG.out)
 
   fs.rmSync(TMP, { recursive: true, force: true })
   if (!fs.existsSync(TMP)) fs.mkdirSync(TMP)
+
+  let files = []
 
   for (let rec of ids) {
     let time = Date.now()
@@ -110,9 +117,13 @@ TemRec.prototype.record = async function (ids, CFG = { padding: 300, output: 'ou
     }, CFG.out)
 
     console.log(`[${util.time(time)}] >> ${ph.basename(CFG.out)}/${rec.id}.mp4`)
+
+    files.push(ph.join(CFG.out, rec.id + '.mp4'))
   }
 
   if (fs.existsSync(TMP)) fs.rmSync(TMP, { recursive: true, force: true })
+
+  return mult ? files : files[0]
 }
 
 TemRec.prototype.exit = async function () {
