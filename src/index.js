@@ -128,7 +128,6 @@ TemRec.prototype.record = async function (ids, CFG = { padding: 200, output: 'ou
 
 TemRec.prototype.exit = async function () {
   await this.dr.exit()
-  await new Promise(resolve => setTimeout(resolve, 3000))
 }
 
 module.exports = TemRec
