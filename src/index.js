@@ -35,8 +35,8 @@ function hasMap (dir, name) {
 }
 
 async function downloadAndExtract (url, dest) {
-  await dl(url, dest)
   let file = ph.join(TMP, url.split('/').pop())
+  await dl(url, TMP)
   let ex = iy(file, dest)
   return new Promise((resolve, reject) => {
     ex.on('file', name => {
