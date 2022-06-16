@@ -1,5 +1,7 @@
 let dp = require('despair')
 
+let tfclass = { 3: 'S', 4: 'D' }
+
 module.exports = {
   async getRecord (id) {
     let record = await dp(`https://tempus.xyz/api/records/id/${id}/overview`).json().catch(e => null)
@@ -15,7 +17,8 @@ module.exports = {
       },
       player: {
         id: record.player_info.steamid,
-        name: record.player_info.name
+        name: record.player_info.name,
+        class: tfclass[record.record_info.class]
       },
       zone: {
         map: record.map_info.name,

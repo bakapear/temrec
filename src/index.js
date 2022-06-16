@@ -1,7 +1,7 @@
 let fs = require('fs')
 let ph = require('path')
 let iy = require('inly')
-let dp = require('despair')
+let dl = require('download')
 
 let util = require('./util')
 let DemRec = require('demrec')
@@ -20,7 +20,7 @@ async function getRecords (ids) {
       map: tem.zone.map,
       player: tem.player.id,
       ticks: { start: tem.time.start, end: tem.time.end },
-      display: `${tem.id} >> ${tem.player.name} on ${tempus.formatZone(tem.zone)} - ${util.formatTime(tem.time.duration * 1000)}`
+      display: `${tem.id} >> [${tem.player.class}] ${tem.player.name} on ${tempus.formatZone(tem.zone)} - ${util.formatTime(tem.time.duration * 1000)}`
     })
   }
   return pack
@@ -35,9 +35,8 @@ function hasMap (dir, name) {
 }
 
 async function downloadAndExtract (url, dest) {
-  let buf = await dp(url, { encoding: 'binary' })
-  let file = ph.join(TMP, buf.req.path.split('/').pop())
-  fs.writeFileSync(file, buf.body, 'binary')
+  await dl(url, dest)
+  let file = ph.join(TMP, url.split('/').pop())
   let ex = iy(file, dest)
   return new Promise((resolve, reject) => {
     ex.on('file', name => {
