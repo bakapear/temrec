@@ -111,7 +111,7 @@ TemRec.prototype.record = async function (ids, CFG = { padding: 200, output: 'ou
     util.progress('[Video] Launching Demo...', 1)
     await this.dr.record(demo, {
       ticks: [rec.ticks.start - CFG.padding, rec.ticks.end + CFG.padding],
-      cmd: `spec_mode 4; spec_player "${rec.player}"`,
+      spec: rec.player,
       out: `${rec.id}.mp4`
     }, CFG.out)
 
