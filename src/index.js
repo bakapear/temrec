@@ -74,7 +74,7 @@ TemRec.prototype.launch = async function () {
   await new Promise(resolve => setTimeout(resolve, 3000))
 }
 
-TemRec.prototype.record = async function (ids, CFG = { padding: 200, output: 'output' }) {
+TemRec.prototype.record = async function (ids, CFG = { padding: 200, output: 'output', pre: 0 }) {
   let mult = true
   if (!Array.isArray(ids)) {
     mult = false
@@ -110,6 +110,7 @@ TemRec.prototype.record = async function (ids, CFG = { padding: 200, output: 'ou
 
     util.progress('[Video] Launching Demo...', 1)
     await this.dr.record(demo, {
+      pre: CFG.pre,
       ticks: [rec.ticks.start - CFG.padding, rec.ticks.end + CFG.padding],
       spec: rec.player,
       out: `${rec.id}.mp4`

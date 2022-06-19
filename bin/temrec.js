@@ -7,6 +7,7 @@ program
   .argument('<ids...>', 'List of record ids to be recorded')
   .option('-o, --output <path>', 'output folder', '')
   .option('-p, --padding <time>', 'padding in ms', '200')
+  .option('-r, --pre <time>', 'pre in ms', '0')
   .parse()
 
 let dir = ph.resolve(__dirname, '..')
