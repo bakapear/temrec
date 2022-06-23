@@ -20,6 +20,7 @@ async function getRecords (ids) {
       map: tem.zone.map,
       player: tem.player.id,
       ticks: { start: tem.time.start, end: tem.time.end },
+      time: tem.time.duration,
       display: `${tem.id} >> [${tem.player.class}] ${tem.player.name} on ${tempus.formatZone(tem.zone)} - ${util.formatTime(tem.time.duration * 1000)}`
     })
   }
@@ -74,7 +75,7 @@ TemRec.prototype.launch = async function () {
   await new Promise(resolve => setTimeout(resolve, 3000))
 }
 
-TemRec.prototype.record = async function (ids, CFG = { padding: 200, output: 'output', pre: 0 }) {
+TemRec.prototype.record = async function (ids, CFG = { padding: 200, output: 'output', pre: 0, timed: false }) {
   let mult = true
   if (!Array.isArray(ids)) {
     mult = false
@@ -111,7 +112,7 @@ TemRec.prototype.record = async function (ids, CFG = { padding: 200, output: 'ou
     util.progress('[Video] Launching Demo...', 1)
     await this.dr.record(demo, {
       pre: CFG.pre,
-      ticks: [rec.ticks.start - CFG.padding, rec.ticks.end + CFG.padding],
+      ticks: [rec.ticks.start - CFG.padding, (CFG.timed ? getTimedEndTick(rec.ticks.start, rec.time) : rec.ticks.end) + CFG.padding],
       spec: rec.player,
       out: `${rec.id}.mp4`
     }, CFG.out)
@@ -128,6 +129,10 @@ TemRec.prototype.record = async function (ids, CFG = { padding: 200, output: 'ou
 
 TemRec.prototype.exit = async function () {
   await this.dr.exit()
+}
+
+function getTimedEndTick (start, duration) {
+  return start + (duration * (200 / 3))
 }
 
 module.exports = TemRec

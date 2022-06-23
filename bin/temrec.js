@@ -8,6 +8,7 @@ program
   .option('-o, --output <path>', 'output folder', '')
   .option('-p, --padding <time>', 'padding in ms', '200')
   .option('-r, --pre <time>', 'pre in ms', '0')
+  .option('-t, --timed', 'use run duration instead of end tick')
   .parse()
 
 let dir = ph.resolve(__dirname, '..')
