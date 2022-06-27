@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "commander": "^9.2.0",
-    "demrec": "^3.2.1",
+    "demrec": "^3.3.0",
     "despair": "^2.1.2",
     "download": "^8.0.0",
     "inly": "^4.0.8"
