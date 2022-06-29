@@ -118,6 +118,7 @@ TemRec.prototype.record = async function (ids, CFG = { padding: 200, output: 'ou
       spec: rec.player,
       out: `${rec.id}.mp4`
     }, CFG.out)
+    if (fs.existsSync(demo)) fs.unlinkSync(demo)
 
     console.log(`[${util.time(time)}] >> ${ph.basename(CFG.out)}/${rec.id}.mp4`)
 
