@@ -113,6 +113,7 @@ TemRec.prototype.record = async function (ids, CFG = { padding: 200, output: 'ou
     await this.dr.record(demo, {
       pre: CFG.pre,
       ticks: [rec.ticks.start, (CFG.timed ? getTimedEndTick(rec.ticks.start, rec.time) : rec.ticks.end)],
+      cmd: 'clear',
       padding: CFG.padding,
       spec: rec.player,
       out: `${rec.id}.mp4`
