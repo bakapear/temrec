@@ -1,4 +1,7 @@
 #! /usr/bin/env node
+let CWD = process.cwd()
+process.chdir(require('path').dirname(__dirname))
+
 let ph = require('path')
 let { program } = require('commander')
 
@@ -11,13 +14,24 @@ program
   .option('-t, --timed', 'use run duration instead of end tick')
   .parse()
 
-let dir = ph.resolve(__dirname, '..')
-let TemRec = require(ph.resolve(dir, 'src'))
-let tr = new TemRec(ph.resolve(dir, 'config.ini'))
+let TemRec = require('../')
+let tr = new TemRec('config.ini', true) // enable logger
 
 async function main (ids, cfg) {
+  cfg.output = ph.resolve(CWD, cfg.output)
+
+  let records = await Promise.all(ids.map(id => TemRec.fetch(id)))
+
   await tr.launch()
-  await tr.record(ids, cfg)
+
+  for (let rec of records) {
+    console.log(rec.id + ' << ' + rec.display)
+
+    let out = await tr.record(rec, cfg)
+
+    console.log(rec.id + ' >> ' + out)
+  }
+
   await tr.exit()
 }
 

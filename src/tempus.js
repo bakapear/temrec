@@ -1,40 +1,37 @@
 let dp = require('despair')
 
-let tfclass = { 3: 'S', 4: 'D' }
+let util = require('./util')
+
+let base = 'https://tempus.xyz/api'
+let TFCLASS = { 3: 'S', 4: 'D' }
 
 module.exports = {
-  async getRecord (id) {
-    let record = await dp(`https://tempus.xyz/api/records/id/${id}/overview`).json().catch(e => null)
-    if (!record) return { error: `Record ${id} not found!` }
-    if (!record.demo_info?.url) return { error: `Record ${id} does not have a demo uploaded!` }
-    return {
-      id: Number(id),
-      url: record.demo_info.url,
-      time: {
-        start: record.record_info.demo_start_tick,
-        end: record.record_info.demo_end_tick,
-        duration: record.record_info.duration
-      },
-      player: {
-        id: record.player_info.steamid,
-        name: record.player_info.name,
-        class: tfclass[record.record_info.class]
-      },
-      zone: {
-        map: record.map_info.name,
-        type: record.zone_info.type,
-        index: record.zone_info.zoneindex,
-        name: record.zone_info.custom_name
-      }
-    }
+  async getRecord (id, formatted) {
+    let rec = await dp(base + `/records/id/${id}/overview`).json().catch(() => null)
+    if (!rec) throw Error(`Record ${id} not found!`)
+    if (!rec.demo_info?.url) throw Error(`Record ${id} does not have a demo uploaded!`)
+    return formatted ? this.formatRecord(rec, id) : rec
   },
-  formatZone (zone) {
-    if (zone.type === 'map') return zone.map
-    let type = zone.type[0].toUpperCase() + zone.index
-    if (zone.name) type += ` - ${zone.name}`
-    return `${zone.map} [${type}]`
+  formatRecord (rec, id) {
+    return {
+      id,
+      map: rec.map_info.name,
+      demo: rec.demo_info.url,
+      start: rec.record_info.demo_start_tick,
+      end: rec.record_info.demo_end_tick,
+      time: rec.record_info.duration,
+      player: rec.player_info.steamid,
+      display: `[${TFCLASS[rec.record_info.class]}] ${rec.player_info.name} on ${rec.demo_info.mapname} ${this.formatZone(rec.zone_info)} - ${util.formatTime(rec.record_info.duration * 1000)}`
+    }
   },
   mapURL (map) {
     return `http://tempus.site.nfoservers.com/server/maps/${map}.bsp.bz2`
+  },
+  formatZone (zone) {
+    let z = zone.type
+    if (z === 'map') z = ''
+    else z = `${z[0].toUpperCase()}${z.slice(1)} ${zone.zoneindex}`
+    if (zone.custom_name) z += ` (${util.maxLen(zone.custom_name, 30)})`
+    return z
   }
 }

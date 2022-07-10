@@ -6,4 +6,4 @@ Render Tempus Records through the command line using [SourceVideoRender](https:/
 ## Setup
 - Run `npm i -g temrec`
 - Get the latest version of [SourceVideoRender](https://github.com/crashfort/SourceDemoRender) (35+)
-- Configure settings in `config.ini`
+- Configure settings in `%NODE_PATH%/temrec/config.ini`
