@@ -1,3 +1,3 @@
 @echo off
-node bin/temrec %* -o output
+node %~dp0/bin/temrec %* -o output
 if NOT ["%errorlevel%"]==["0"] pause
