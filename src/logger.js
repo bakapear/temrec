@@ -53,6 +53,7 @@ function Logger (events) {
 
   // TODO: timer hell
 
+  this.stop = () => timer.end()
   this.onlog = data => {
     let swap = SWAPS.includes(data.event) ? '\n' : ''
     let [head, action, end] = Events[data.event].split('_')
@@ -75,8 +76,7 @@ function Logger (events) {
     }
 
     timer.set(`[${head}] ${act} ${progress}`, swap)
-    if (data.event === events.GAME_EXIT_END) timer.end()
-    else if (!timer.time) timer.start()
+    if (!swap && !timer.time) timer.start()
   }
 }
 

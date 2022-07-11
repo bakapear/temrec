@@ -14,8 +14,8 @@ class TemRec extends DemRec {
   constructor (config, logger) {
     super(config)
     if (logger) {
-      logger = new Logger(TemRec.Events)
-      this.on('log', logger.onlog)
+      this.logger = new Logger(TemRec.Events)
+      this.on('log', this.logger.onlog)
     }
   }
 }
@@ -109,6 +109,11 @@ TemRec.prototype.record = async function (ids, cfg) {
   util.remove(TMP)
 
   return mult ? files : files[0]
+}
+
+TemRec.prototype.exit = async function (silent) {
+  if (this.logger) this.logger.stop()
+  await DemRec.prototype.exit.call(this, silent)
 }
 
 module.exports = TemRec
