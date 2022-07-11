@@ -8,13 +8,13 @@ let TFCLASS = { 3: 'S', 4: 'D' }
 module.exports = {
   async getRecord (id, formatted) {
     let rec = id
-    if (typeof id !== 'object' && !isNaN(id)) {
-      rec = await dp(base + `/records/id/${id}/overview`).json().catch(() => null)
-    }
-    if (!rec) throw Error(`Record ${id} not found!`)
-    if (!rec.demo_info?.url) throw Error(`Record ${id} does not have a demo uploaded!`)
+    if (typeof id === 'object') id = rec.id || rec.record_info?.id
+    else rec = await dp(base + `/records/id/${id}/overview`).json().catch(() => null)
 
-    return formatted ? this.formatRecord(rec) : rec
+    if (!rec) throw Error(`Record ${id} not found!`)
+    if (!rec.demo_info?.url && !rec.demo) throw Error(`Record ${id} does not have a demo uploaded!`)
+
+    return (formatted && !rec.display) ? this.formatRecord(rec) : rec
   },
   formatRecord (rec) {
     return {
