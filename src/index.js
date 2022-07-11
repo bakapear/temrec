@@ -82,7 +82,7 @@ TemRec.prototype.record = async function (ids, cfg) {
   cfg.output = ph.resolve(cfg.output)
 
   let records = []
-  for (let id of ids) records.push(await TemRec.fetch(id, true))
+  for (let id of ids) records.push(await TemRec.fetch(id))
 
   let files = []
 
