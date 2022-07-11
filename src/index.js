@@ -82,12 +82,7 @@ TemRec.prototype.record = async function (ids, cfg) {
   cfg.output = ph.resolve(cfg.output)
 
   let records = []
-  for (let id of ids) {
-    let rec = null
-    if (typeof id === 'object') rec = id.id ? id : tempus.formatRecord(id)
-    else rec = await tempus.getRecord(id, true)
-    records.push(rec)
-  }
+  for (let id of ids) records.push(await TemRec.fetch(id, true))
 
   let files = []
 
