@@ -19,12 +19,21 @@ module.exports = {
   formatRecord (rec) {
     return {
       id: rec.record_info.id,
+      class: TFCLASS[rec.record_info.class],
+      zone: rec.record_info.zone_id,
       map: rec.map_info.name,
       demo: rec.demo_info.url,
       start: rec.record_info.demo_start_tick,
       end: rec.record_info.demo_end_tick,
       time: rec.record_info.duration,
       player: rec.player_info.steamid,
+      nick: rec.player_info.name,
+      z: {
+        map: rec.zone_info.map_id,
+        type: rec.zone_info.type,
+        index: rec.zone_info.index,
+        custom: rec.zone_info.custom_name
+      },
       display: `[${TFCLASS[rec.record_info.class]}] ${rec.player_info.name} on ${rec.demo_info.mapname} ${this.formatZone(rec.zone_info)} - ${util.formatTime(rec.record_info.duration * 1000)}`
     }
   },
