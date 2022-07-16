@@ -31,7 +31,7 @@ module.exports = {
       z: {
         map: rec.zone_info.map_id,
         type: rec.zone_info.type,
-        index: rec.zone_info.index,
+        index: rec.zone_info.zoneindex,
         custom: rec.zone_info.custom_name
       },
       display: `[${TFCLASS[rec.record_info.class]}] ${rec.player_info.name} on ${rec.demo_info.mapname} ${this.formatZone(rec.zone_info)} - ${util.formatTime(rec.record_info.duration * 1000)}`
