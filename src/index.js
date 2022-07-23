@@ -7,7 +7,7 @@ let tempus = require('./tempus')
 let extract = require('./extract')
 let dlr = require('../lib/downloader')
 
-let DEFAULTS = { padding: 200, output: 'output', pre: 0, timed: false }
+let DEFAULTS = { padding: 200, output: 'output', pre: 0, timed: false, cmd: '', ffmpeg: {} }
 let TMP = ph.resolve(__dirname, 'tmp')
 
 class TemRec extends DemRec {
@@ -99,6 +99,7 @@ TemRec.prototype.record = async function (ids, cfg) {
       ticks: [rec.start, (cfg.timed ? (rec.start + (rec.time * (200 / 3))) : rec.end)],
       spec: rec.player,
       cmd: cfg.cmd,
+      ffmpeg: cfg.ffmpeg,
       out: rec.id + '.mp4'
     }, cfg.output)
 
