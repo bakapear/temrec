@@ -12,6 +12,7 @@ program
   .option('-p, --padding <time>', 'padding in ms', '200')
   .option('-r, --pre <time>', 'pre in ms', '0')
   .option('-t, --timed', 'use run duration instead of end tick')
+  .option('-c, --cmd <command>', 'custom command to execute before recording', '')
   .parse()
 
 let TemRec = require('../')

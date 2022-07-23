@@ -98,6 +98,7 @@ TemRec.prototype.record = async function (ids, cfg) {
       padding: cfg.padding,
       ticks: [rec.start, (cfg.timed ? (rec.start + (rec.time * (200 / 3))) : rec.end)],
       spec: rec.player,
+      cmd: cfg.cmd,
       out: rec.id + '.mp4'
     }, cfg.output)
 
