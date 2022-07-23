@@ -7,7 +7,6 @@ let tempus = require('./tempus')
 let extract = require('./extract')
 let dlr = require('../lib/downloader')
 
-let DEFAULTS = { padding: 200, output: 'output', pre: 0, timed: false, cmd: '', ffmpeg: {} }
 let TMP = ph.resolve(__dirname, 'tmp')
 
 class TemRec extends DemRec {
@@ -70,6 +69,8 @@ TemRec.prototype.record = async function (ids, cfg) {
     mult = false
     ids = [ids]
   }
+
+  let DEFAULTS = { padding: 200, output: 'output', pre: 0, timed: false, cmd: '', ffmpeg: {} }
 
   cfg = cfg ? Object.assign(DEFAULTS, cfg) : DEFAULTS
 
