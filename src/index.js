@@ -32,7 +32,7 @@ TemRec.prototype.map = async function (map) {
   }
   this.emit('log', { event: TemRec.Events.MAP_DOWNLOAD, map })
   let url = tempus.mapURL(map)
-  let file = await dlr(url, TMP, progress => {
+  let file = await dlr(url, this.tmp, progress => {
     this.emit('log', { event: TemRec.Events.MAP_DOWNLOAD, map, progress })
   })
   this.emit('log', { event: TemRec.Events.MAP_DOWNLOAD_END, map })
@@ -51,13 +51,13 @@ TemRec.prototype.map = async function (map) {
 TemRec.prototype.demo = async function (demo) {
   let name = ph.basename(demo, '.zip')
   this.emit('log', { event: TemRec.Events.DEMO_DOWNLOAD, demo: name })
-  let file = await dlr(demo, TMP, progress => {
+  let file = await dlr(demo, this.tmp, progress => {
     this.emit('log', { event: TemRec.Events.DEMO_DOWNLOAD, demo: name, progress })
   })
   this.emit('log', { event: TemRec.Events.DEMO_DOWNLOAD_END, demo: name })
 
   this.emit('log', { event: TemRec.Events.DEMO_EXTRACT, demo: name })
-  let dest = await extract.zip(file, TMP)
+  let dest = await extract.zip(file, this.tmp)
   util.remove(file)
   this.emit('log', { event: TemRec.Events.DEMO_EXTRACT_END, demo: name })
 
@@ -88,7 +88,7 @@ TemRec.prototype.record = async function (ids, cfg) {
 
   let files = []
 
-  if (!fs.existsSync(TMP)) fs.mkdirSync(TMP)
+  if (!fs.existsSync(this.tmp)) fs.mkdirSync(this.tmp)
 
   for (let rec of records) {
     await this.map(rec.map)
@@ -110,7 +110,7 @@ TemRec.prototype.record = async function (ids, cfg) {
     files.push(results[0])
   }
 
-  util.remove(TMP)
+  util.remove(this.tmp)
 
   return mult ? files : files[0]
 }
