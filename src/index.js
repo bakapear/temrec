@@ -7,7 +7,7 @@ let tempus = require('./tempus')
 let extract = require('./extract')
 let dlr = require('../lib/downloader')
 
-let TMP = ph.resolve(__dirname, 'tmp')
+let TMP = ph.resolve(__dirname, '..', 'tmp')
 
 class TemRec extends DemRec {
   constructor (config, logger) {
@@ -16,6 +16,7 @@ class TemRec extends DemRec {
       this.logger = new Logger(TemRec.Events)
       this.on('log', this.logger.onlog)
     }
+    this.tmp = TMP
   }
 }
 
