@@ -26,7 +26,9 @@ TemRec.fetch = id => tempus.getRecord(id, true)
 
 TemRec.prototype.map = async function (map) {
   for (let path of ['maps', 'download/maps']) {
-    let maps = fs.readdirSync(ph.join(this.game.dir, path))
+    let dir = ph.join(this.game.dir, path)
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
+    let maps = fs.readdirSync(dir)
     let m = maps.find(x => x === map + '.bsp')
     if (m) return ph.join(this.game.dir, path, m)
   }
