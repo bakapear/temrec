@@ -2,14 +2,13 @@ let dp = require('despair')
 
 let util = require('./util')
 
-let base = 'https://tempus.xyz/api'
 let TFCLASS = { 3: 'S', 4: 'D' }
 
 module.exports = {
-  async getRecord (id, formatted) {
+  async getRecord (api, id, formatted) {
     let rec = id
     if (typeof id === 'object') id = rec.id || rec.record_info?.id
-    else rec = await dp(base + `/records/id/${id}/overview`).json().catch(() => null)
+    else rec = await dp(api + `/records/id/${id}/overview`).json().catch(() => null)
 
     if (!rec) throw Error(`Record ${id} not found!`)
     if (!rec.demo_info?.url && !rec.demo) throw Error(`Record ${id} does not have a demo uploaded!`)
@@ -38,8 +37,8 @@ module.exports = {
       display: `[${TFCLASS[rec.record_info.class]}] ${rec.player_info.name} on ${rec.demo_info.mapname} ${this.formatZone(rec.zone_info)} - ${util.formatTime(rec.record_info.duration * 1000)}`
     }
   },
-  mapURL (map) {
-    return `http://tempus.site.nfoservers.com/server/maps/${map}.bsp.bz2`
+  mapURL (api, map) {
+    return api.replace('%MAP%', map)
   },
   formatZone (zone) {
     let z = zone.type

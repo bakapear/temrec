@@ -10,6 +10,9 @@ let dlr = require('../lib/downloader')
 let TMP = ph.resolve(__dirname, '..', 'tmp')
 
 class TemRec extends DemRec {
+  API_URL = 'https://tempus.xyz/api'
+  MAP_URL = 'http://tempus2.xyz/tempus/server/maps/%MAP%.bsp.bz2'
+
   constructor (config, logger) {
     super(config)
     if (logger) {
@@ -22,7 +25,7 @@ class TemRec extends DemRec {
 
 TemRec.Events.add(['MAP_DOWNLOAD', 'MAP_DOWNLOAD_END', 'MAP_EXTRACT', 'MAP_EXTRACT_END', 'DEMO_DOWNLOAD', 'DEMO_DOWNLOAD_END', 'DEMO_EXTRACT', 'DEMO_EXTRACT_END'])
 
-TemRec.fetch = id => tempus.getRecord(id, true)
+TemRec.fetch = id => tempus.getRecord(TemRec.API_URL, id, true)
 
 TemRec.prototype.map = async function (map) {
   for (let path of ['maps', 'download/maps']) {
@@ -33,7 +36,7 @@ TemRec.prototype.map = async function (map) {
     if (m) return ph.join(this.game.dir, path, m)
   }
   this.emit('log', { event: TemRec.Events.MAP_DOWNLOAD, map })
-  let url = tempus.mapURL(map)
+  let url = tempus.mapURL(TemRec.MAP_URL, map)
   let file = await dlr(url, this.tmp, progress => {
     this.emit('log', { event: TemRec.Events.MAP_DOWNLOAD, map, progress })
   })
