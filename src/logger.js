@@ -15,9 +15,9 @@ function doing (act) {
 
 function Logger (events) {
   let Events = Object.keys(events)
-  let SWAPS = [events.GAME_LAUNCH_END, events.MAP_EXTRACT_END, events.DEMO_EXTRACT_END, events.DEMO_DONE, events.FFMPEG_DONE, events.GAME_EXIT_END]
+  let SWAPS = [events.GAME_LAUNCH_END, events.MAP_EXTRACT_END, events.CUBEMAPS_RESTART_END, events.DEMO_EXTRACT_END, events.DEMO_DONE, events.FFMPEG_DONE, events.GAME_EXIT_END]
   let VID = [events.DEMO_LAUNCH, events.DEMO_DONE]
-  let REP = { GAME: 'Game', MAP: 'Map', DEMO: 'Demo', VIDEO: 'Video', FFMPEG: 'FFMPEG' }
+  let REP = { GAME: 'Game', MAP: 'Map', DEMO: 'Demo', VIDEO: 'Video', FFMPEG: 'FFMPEG', CUBEMAPS: 'Cubemaps' }
 
   let timer = {
     time: null,

@@ -23,7 +23,7 @@ class TemRec extends DemRec {
 TemRec.API_URL = 'https://tempus.xyz/api'
 TemRec.MAP_URL = 'http://tempus2.xyz/tempus/server/maps/%MAP%.bsp.bz2'
 
-TemRec.Events.add(['MAP_DOWNLOAD', 'MAP_DOWNLOAD_END', 'MAP_EXTRACT', 'MAP_EXTRACT_END', 'DEMO_DOWNLOAD', 'DEMO_DOWNLOAD_END', 'DEMO_EXTRACT', 'DEMO_EXTRACT_END'])
+TemRec.Events.add(['MAP_DOWNLOAD', 'MAP_DOWNLOAD_END', 'MAP_EXTRACT', 'MAP_EXTRACT_END', 'DEMO_DOWNLOAD', 'DEMO_DOWNLOAD_END', 'DEMO_EXTRACT', 'DEMO_EXTRACT_END', 'CUBEMAPS_LAUNCH', 'CUBEMAPS_LAUNCH_END', 'CUBEMAPS_BUILD', 'CUBEMAPS_BUILD_END', 'CUBEMAPS_RESTART', 'CUBEMAPS_RESTART_END'])
 
 TemRec.fetch = id => tempus.getRecord(TemRec.API_URL, id, true)
 
@@ -33,7 +33,7 @@ TemRec.prototype.map = async function (map) {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
     let maps = fs.readdirSync(dir)
     let m = maps.find(x => x === map + '.bsp')
-    if (m) return ph.join(this.game.dir, path, m)
+    if (m) return { had: true, dest: ph.join(this.game.dir, path, m) }
   }
   this.emit('log', { event: TemRec.Events.MAP_DOWNLOAD, map })
   let url = tempus.mapURL(TemRec.MAP_URL, map)
@@ -50,7 +50,31 @@ TemRec.prototype.map = async function (map) {
   util.remove(file)
   this.emit('log', { event: TemRec.Events.MAP_EXTRACT_END, map })
 
-  return dest
+  return { had: false, dest }
+}
+
+TemRec.prototype.buildcubemaps = async function (map) {
+  this.emit('log', { event: TemRec.Events.CUBEMAPS_LAUNCH, map })
+  await this.exit(true)
+
+  let cmds = this.cfg.General.game_cmds
+  let args = this.cfg.General.game_args
+  this.cfg.General.game_cmds += `; mat_hdr_level 0; mat_specular 0; map "${map}"`
+  this.cfg.General.game_args += ' -buildcubemaps -nosound'
+
+  await this.launch(true)
+  this.emit('log', { event: TemRec.Events.CUBEMAPS_LAUNCH_END, map })
+
+  this.emit('log', { event: TemRec.Events.CUBEMAPS_BUILD, map })
+  await new Promise(resolve => this.app.on('finish', resolve))
+  this.emit('log', { event: TemRec.Events.CUBEMAPS_BUILD_END, map })
+
+  this.cfg.General.game_cmds = cmds
+  this.cfg.General.game_args = args
+
+  this.emit('log', { event: TemRec.Events.CUBEMAPS_RESTART, map })
+  await this.launch(true)
+  this.emit('log', { event: TemRec.Events.CUBEMAPS_RESTART_END, map })
 }
 
 TemRec.prototype.demo = async function (demo) {
@@ -96,7 +120,8 @@ TemRec.prototype.record = async function (ids, cfg) {
   if (!fs.existsSync(this.tmp)) fs.mkdirSync(this.tmp)
 
   for (let rec of records) {
-    await this.map(rec.map)
+    let m = await this.map(rec.map)
+    if (cfg.cubemaps && !m.had) await this.buildcubemaps(rec.map)
 
     let demo = await this.demo(rec.demo)
 

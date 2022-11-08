@@ -11,8 +11,9 @@ program
   .option('-o, --output <path>', 'output folder', '')
   .option('-p, --padding <time>', 'padding in ms', '200')
   .option('-r, --pre <time>', 'pre in ms', '0')
-  .option('-t, --timed', 'use run duration instead of end tick')
+  .option('-t, --timed', 'use run duration instead of end tick', false)
   .option('-c, --cmd <command>', 'custom command to execute before recording', '')
+  .option('-b, --cubemaps', 'build cubemaps when downloading map', false)
   .parse()
 
 let TemRec = require('../')
