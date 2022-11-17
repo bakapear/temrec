@@ -123,7 +123,14 @@ TemRec.prototype.record = async function (ids, cfg) {
     let m = await this.map(rec.map)
     if (cfg.cubemaps && !m.had) await this.buildcubemaps(rec.map)
 
-    let demo = await this.demo(rec.demo)
+    let demo = null
+
+    if (!cfg.local) demo = await this.demo(rec.demo)
+    else {
+      let path = ph.resolve(cfg.local, rec.id + '.dem')
+      if (!fs.existsSync(path)) throw Error(`Local demo file "${path}" does not exist!`)
+      demo = path
+    }
 
     let results = await DemRec.prototype.record.call(this, demo, {
       pre: cfg.pre,
