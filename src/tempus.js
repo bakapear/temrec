@@ -18,6 +18,7 @@ module.exports = {
   formatRecord (rec) {
     return {
       id: rec.record_info.id,
+      rank: rec.record_info.rank,
       date: rec.record_info.date,
       class: TFCLASS[rec.record_info.class],
       zone: rec.record_info.zone_id,
