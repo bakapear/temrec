@@ -13,6 +13,7 @@ program
   .option('-r, --pre <time>', 'pre in ms', '0')
   .option('-t, --timed', 'use run duration instead of end tick', false)
   .option('-c, --cmd <command>', 'custom command to execute before recording', '')
+  .option('-v, --vis', 'disable pvs before record', false)
   .option('-b, --cubemaps', 'build cubemaps when downloading map', false)
   .parse()
 

@@ -100,7 +100,7 @@ TemRec.prototype.record = async function (ids, cfg) {
     ids = [ids]
   }
 
-  let DEFAULTS = { padding: 200, output: 'output', pre: 0, timed: false, cmd: '', ffmpeg: {} }
+  let DEFAULTS = { padding: 200, output: 'output', pre: 0, timed: false, cmd: '', vis: false, ffmpeg: {} }
 
   cfg = cfg ? Object.assign(DEFAULTS, cfg) : DEFAULTS
 
@@ -134,6 +134,7 @@ TemRec.prototype.record = async function (ids, cfg) {
 
     let results = await DemRec.prototype.record.call(this, demo, {
       pre: cfg.pre,
+      vis: cfg.vis,
       padding: cfg.padding,
       ticks: [rec.start, (cfg.timed ? (rec.start + (rec.time * (200 / 3))) : rec.end)],
       spec: rec.player,
