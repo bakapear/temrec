@@ -78,16 +78,22 @@ TemRec.prototype.buildcubemaps = async function (map) {
 }
 
 TemRec.prototype.demo = async function (demo) {
-  let name = ph.basename(demo, '.zip')
+  let ext = demo.slice(demo.lastIndexOf('.'))
+  let name = ph.basename(demo, ext)
   this.emit('log', { event: TemRec.Events.DEMO_DOWNLOAD, demo: name })
   let file = await dlr(demo, this.tmp, progress => {
     this.emit('log', { event: TemRec.Events.DEMO_DOWNLOAD, demo: name, progress })
   })
   this.emit('log', { event: TemRec.Events.DEMO_DOWNLOAD_END, demo: name })
 
-  this.emit('log', { event: TemRec.Events.DEMO_EXTRACT, demo: name })
-  let dest = await extract.zip(file, this.tmp)
-  util.remove(file)
+  let dest = file
+
+  if (ext === '.zip') {
+    this.emit('log', { event: TemRec.Events.DEMO_EXTRACT, demo: name })
+    dest = await extract.zip(file, this.tmp)
+    util.remove(file)
+  }
+
   this.emit('log', { event: TemRec.Events.DEMO_EXTRACT_END, demo: name })
 
   return dest
