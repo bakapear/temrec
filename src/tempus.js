@@ -21,6 +21,7 @@ module.exports = {
       rank: rec.record_info.rank,
       date: rec.record_info.date,
       class: TFCLASS[rec.record_info.class],
+      tier: rec.tier_info[rec.record_info.class],
       zone: rec.record_info.zone_id,
       map: rec.map_info.name,
       demo: rec.demo_info.url,
@@ -30,6 +31,7 @@ module.exports = {
       player: rec.player_info.steamid,
       nick: rec.player_info.name,
       z: {
+        demo: rec.demo_info.id,
         map: rec.zone_info.map_id,
         type: rec.zone_info.type,
         index: rec.zone_info.zoneindex,
