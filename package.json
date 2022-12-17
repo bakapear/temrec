@@ -6,7 +6,7 @@
   },
   "name": "temrec",
   "description": "Render Tempus Records through the command line using SourceVideoRender!",
-  "version": "3.7.1",
+  "version": "3.7.2",
   "main": "src/index.js",
   "bin": {
     "temrec": "bin/temrec.js"
