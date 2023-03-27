@@ -20,8 +20,8 @@ class TemRec extends DemRec {
   }
 }
 
-TemRec.API_URL = 'https://tempus.xyz/api'
-TemRec.MAP_URL = 'http://tempus2.xyz/tempus/server/maps/%MAP%.bsp.bz2'
+TemRec.API_URL = 'https://tempus2.xyz/api/v0'
+TemRec.MAP_URL = 'https://static.tempus2.xyz/tempus/server/maps/%MAP%.bsp.bz2'
 
 TemRec.Events.add(['MAP_DOWNLOAD', 'MAP_DOWNLOAD_END', 'MAP_EXTRACT', 'MAP_EXTRACT_END', 'DEMO_DOWNLOAD', 'DEMO_DOWNLOAD_END', 'DEMO_EXTRACT', 'DEMO_EXTRACT_END', 'CUBEMAPS_LAUNCH', 'CUBEMAPS_LAUNCH_END', 'CUBEMAPS_BUILD', 'CUBEMAPS_BUILD_END', 'CUBEMAPS_RESTART', 'CUBEMAPS_RESTART_END'])
 
