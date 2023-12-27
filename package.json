@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "commander": "^9.3.0",
-    "demrec": "^5.8.0",
+    "demrec": "^5.8.1",
     "despair": "^2.1.2"
   },
   "name": "temrec",
