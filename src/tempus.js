@@ -1,5 +1,3 @@
-let dp = require('despair')
-
 let util = require('./util')
 
 let TFCLASS = { 3: 'S', 4: 'D' }
@@ -8,7 +6,7 @@ module.exports = {
   async getRecord (api, id, formatted) {
     let rec = id
     if (typeof id === 'object') id = rec.id || rec.record_info?.id
-    else rec = await dp(api + `/records/id/${id}/overview`).json().catch(() => null)
+    else rec = await fetch(api + `/records/id/${id}/overview`).then(j => j.json()).catch(() => null)
 
     if (!rec) throw Error(`Record ${id} not found!`)
     if (!rec.demo_info?.url && !rec.demo) throw Error(`Record ${id} does not have a demo uploaded!`)
