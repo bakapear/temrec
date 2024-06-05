@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "commander": "^9.3.0",
-    "demrec": "^6.0.0"
+    "demrec": "^6.1.0"
   },
   "name": "temrec",
   "description": "Render Tempus Records through the command line using SourceVideoRender!",
